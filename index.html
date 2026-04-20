@@ -1,358 +1,1044 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OCR Receipt Scanner - GitHub Pages</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
-        
-        .header {
-            background: linear-gradient(90deg, #4f46e5, #7c3aed);
-            color: white;
-            padding: 30px 40px;
-            text-align: center;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 10px;
-        }
-        
-        .logo-icon {
-            font-size: 40px;
-            background: white;
-            color: #4f46e5;
-            width: 60px;
-            height: 60px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .logo-text h1 {
-            font-size: 28px;
-            font-weight: 700;
-        }
-        
-        .logo-text p {
-            opacity: 0.9;
-            font-size: 14px;
-        }
-        
-        .status-badge {
-            background: rgba(255,255,255,0.2);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 500;
-            display: inline-block;
-            margin-top: 10px;
-        }
-        
-        .content {
-            padding: 40px;
-            text-align: center;
-        }
-        
-        .section-title {
-            font-size: 24px;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 30px;
-        }
-        
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 40px 0;
-        }
-        
-        .option-card {
-            background: #f8fafc;
-            padding: 30px;
-            border-radius: 15px;
-            border: 2px solid #e2e8f0;
-            transition: all 0.3s;
-        }
-        
-        .option-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-            border-color: #4f46e5;
-        }
-        
-        .option-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-        
-        .option-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 10px;
-        }
-        
-        .option-desc {
-            color: #64748b;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-            margin: 10px;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        
-        .btn-primary {
-            background: #4f46e5;
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: #4338ca;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
-        }
-        
-        .btn-secondary {
-            background: #10b981;
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background: #0da271;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
-        }
-        
-        .btn-outline {
-            background: transparent;
-            color: #4f46e5;
-            border: 2px solid #4f46e5;
-        }
-        
-        .btn-outline:hover {
-            background: #4f46e5;
-            color: white;
-        }
-        
-        .demo-section {
-            background: #f1f5f9;
-            padding: 40px;
-            border-radius: 15px;
-            margin: 40px 0;
-        }
-        
-        .demo-title {
-            font-size: 22px;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 20px;
-        }
-        
-        .demo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-        
-        .demo-item {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-        
-        .demo-item-title {
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 10px;
-        }
-        
-        .demo-item-desc {
-            color: #64748b;
-            font-size: 14px;
-        }
-        
-        .footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #e2e8f0;
-            color: #64748b;
-            font-size: 14px;
-        }
-        
-        .github-link {
-            color: #4f46e5;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        
-        .github-link:hover {
-            text-decoration: underline;
-        }
-        
-        @media (max-width: 768px) {
-            .content {
-                padding: 20px;
-            }
-            
-            .options-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OCR Receipt Scanner — AI-Powered Expense Tracking</title>
+  <meta name="description" content="Scan receipts with AI. Extract data instantly. Track spending with beautiful analytics." />
+  <style>
+    :root {
+      --indigo: #4f46e5;
+      --indigo-dark: #3730a3;
+      --violet: #7c3aed;
+      --emerald: #10b981;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-700: #334155;
+      --slate-900: #0f172a;
+      --white: #ffffff;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--slate-900);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 16px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(15,23,42,0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 18px;
+      text-decoration: none;
+      color: var(--white);
+    }
+
+    .nav-brand-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--indigo), var(--violet));
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--slate-400);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--slate-400);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.06);
+      color: var(--white);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--indigo), var(--violet));
+      color: var(--white);
+      box-shadow: 0 0 0 0 rgba(79,70,229,0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(79,70,229,0.4);
+    }
+
+    .btn-lg {
+      padding: 14px 28px;
+      font-size: 16px;
+      border-radius: 10px;
+    }
+
+    .btn-emerald {
+      background: linear-gradient(135deg, #059669, var(--emerald));
+      color: var(--white);
+    }
+
+    .btn-emerald:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(16,185,129,0.35);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(79,70,229,0.25) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 60%, rgba(124,58,237,0.15) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 35% at 20% 80%, rgba(16,185,129,0.1) 0%, transparent 50%);
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(79,70,229,0.15);
+      border: 1px solid rgba(79,70,229,0.35);
+      color: #a5b4fc;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 28px;
+      position: relative;
+    }
+
+    .badge-dot {
+      width: 7px; height: 7px;
+      background: var(--indigo);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.3); }
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 7vw, 80px);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, #818cf8, #a78bfa, #c4b5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: var(--slate-400);
+      max-width: 560px;
+      line-height: 1.65;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 60px;
+      position: relative;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 32px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--white), #a5b4fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--slate-500);
+      margin-top: 4px;
+    }
+
+    /* ── DEMO PREVIEW ── */
+    .preview-section {
+      padding: 0 24px 100px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .preview-window {
+      max-width: 900px;
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+    }
+
+    .window-bar {
+      background: rgba(255,255,255,0.05);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 7px;
+    }
+
+    .dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #ff5f56; }
+    .dot-yellow { background: #ffbd2e; }
+    .dot-green { background: #27c93f; }
+
+    .window-url {
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-size: 12px;
+      color: var(--slate-400);
+    }
+
+    .window-content {
+      padding: 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .mock-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .mock-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .mock-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .mock-icon-blue { background: rgba(79,70,229,0.2); }
+    .mock-icon-green { background: rgba(16,185,129,0.2); }
+    .mock-icon-purple { background: rgba(124,58,237,0.2); }
+    .mock-icon-orange { background: rgba(245,158,11,0.2); }
+
+    .mock-label {
+      font-size: 12px;
+      color: var(--slate-500);
+    }
+
+    .mock-value {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .mock-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .mock-bar-label {
+      font-size: 12px;
+      color: var(--slate-400);
+      width: 80px;
+      flex-shrink: 0;
+    }
+
+    .mock-bar-track {
+      flex: 1;
+      height: 6px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .mock-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--indigo), var(--violet));
+    }
+
+    .mock-bar-pct {
+      font-size: 12px;
+      color: var(--slate-500);
+      width: 32px;
+      text-align: right;
+    }
+
+    .mock-list-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 13px;
+    }
+
+    .mock-list-item:last-child { border-bottom: none; }
+
+    .mock-store { color: var(--slate-400); }
+    .mock-amount { font-weight: 600; color: var(--emerald); }
+
+    /* ── FEATURES ── */
+    .section {
+      padding: 100px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #818cf8;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      color: var(--slate-400);
+      font-size: 17px;
+      line-height: 1.65;
+      max-width: 560px;
+      margin-bottom: 64px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 28px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(79,70,229,0.08), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(79,70,229,0.35);
+      transform: translateY(-3px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    }
+
+    .feature-card:hover::before { opacity: 1; }
+
+    .feature-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 18px;
+    }
+
+    .fi-blue { background: rgba(79,70,229,0.15); border: 1px solid rgba(79,70,229,0.25); }
+    .fi-violet { background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.25); }
+    .fi-emerald { background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.25); }
+    .fi-amber { background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.25); }
+    .fi-rose { background: rgba(244,63,94,0.15); border: 1px solid rgba(244,63,94,0.25); }
+    .fi-sky { background: rgba(14,165,233,0.15); border: 1px solid rgba(14,165,233,0.25); }
+
+    .feature-title {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .feature-desc {
+      color: var(--slate-400);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-section {
+      padding: 100px 24px;
+      background: rgba(255,255,255,0.02);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .how-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      position: relative;
+    }
+
+    .step-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 28px 24px;
+      position: relative;
+    }
+
+    .step-num {
+      font-size: 48px;
+      font-weight: 900;
+      background: linear-gradient(135deg, rgba(79,70,229,0.4), rgba(124,58,237,0.2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 14px;
+    }
+
+    .step-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .step-desc {
+      font-size: 13px;
+      color: var(--slate-500);
+      line-height: 1.6;
+    }
+
+    /* ── TECH STACK ── */
+    .stack-section { padding: 100px 24px; }
+
+    .stack-inner { max-width: 1100px; margin: 0 auto; }
+
+    .stack-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .stack-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--slate-400);
+      transition: all 0.2s;
+    }
+
+    .stack-badge:hover {
+      background: rgba(255,255,255,0.07);
+      color: var(--white);
+      border-color: rgba(255,255,255,0.15);
+    }
+
+    .stack-badge-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 100px 24px;
+      text-align: center;
+    }
+
+    .cta-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, rgba(79,70,229,0.15), rgba(124,58,237,0.1));
+      border: 1px solid rgba(79,70,229,0.25);
+      border-radius: 24px;
+      padding: 60px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-inner::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(124,58,237,0.2), transparent 70%);
+    }
+
+    .cta-inner::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(79,70,229,0.15), transparent 70%);
+    }
+
+    .cta-title {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .cta-sub {
+      color: var(--slate-400);
+      font-size: 16px;
+      margin-bottom: 36px;
+      position: relative;
+    }
+
+    .cta-actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 40px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: gap;
+      gap: 20px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .footer-brand-icon {
+      width: 30px; height: 30px;
+      background: linear-gradient(135deg, var(--indigo), var(--violet));
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      color: var(--slate-500);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--white); }
+
+    .footer-copy {
+      color: var(--slate-600, #475569);
+      font-size: 13px;
+    }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* stagger children */
+    .stagger > * { transition-delay: calc(var(--i, 0) * 80ms); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+      .window-content { grid-template-columns: 1fr; }
+      footer { flex-direction: column; text-align: center; }
+      .cta-inner { padding: 40px 24px; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo">
-                <div class="logo-icon">🧾</div>
-                <div class="logo-text">
-                    <h1>OCR Receipt Scanner</h1>
-                    <p>AI-powered receipt processing & analytics</p>
-                </div>
-            </div>
-            <div class="status-badge">🚀 Hosted on GitHub Pages</div>
-        </div>
-        
-        <div class="content">
-            <div class="section-title">Choose Your Version</div>
-            
-            <div class="options-grid">
-                <div class="option-card">
-                    <div class="option-icon">🌐</div>
-                    <div class="option-title">HTML Demo Version</div>
-                    <div class="option-desc">
-                        Interactive HTML demo with full UI. No backend required - works directly in your browser.
-                    </div>
-                    <a href="ocr_receipt_scanner.html" class="btn btn-primary">Open HTML Demo</a>
-                </div>
-                
-                <div class="option-card">
-                    <div class="option-icon">🐍</div>
-                    <div class="option-title">Full Streamlit App</div>
-                    <div class="option-desc">
-                        Complete Python application with OCR, AI parsing, database, and analytics. Requires local setup.
-                    </div>
-                    <a href="https://github.com/malagasr/ocr-receipt-scanner" class="btn btn-outline">View on GitHub</a>
-                </div>
-                
-                <div class="option-card">
-                    <div class="option-icon">🚀</div>
-                    <div class="option-title">Deploy to Streamlit Cloud</div>
-                    <div class="option-desc">
-                        One-click deployment to Streamlit Cloud for a live, hosted version with full functionality.
-                    </div>
-                    <a href="https://streamlit.io/cloud" class="btn btn-secondary">Deploy Now</a>
-                </div>
-            </div>
-            
-            <div class="demo-section">
-                <div class="demo-title">🎯 Live Demo Features</div>
-                <p style="color: #64748b; margin-bottom: 20px;">The HTML demo includes interactive UI elements that showcase the app's functionality:</p>
-                
-                <div class="demo-grid">
-                    <div class="demo-item">
-                        <div class="demo-item-title">📤 File Upload</div>
-                        <div class="demo-item-desc">Drag & drop interface with file browser</div>
-                    </div>
-                    
-                    <div class="demo-item">
-                        <div class="demo-item-title">🤖 AI Processing</div>
-                        <div class="demo-item-desc">Simulated OCR + AI parsing workflow</div>
-                    </div>
-                    
-                    <div class="demo-item">
-                        <div class="demo-item-title">📊 Dashboard</div>
-                        <div class="demo-item-desc">Interactive data visualization</div>
-                    </div>
-                    
-                    <div class="demo-item">
-                        <div class="demo-item-title">⚡ Real-time Status</div>
-                        <div class="demo-item-desc">System health and processing status</div>
-                    </div>
-                </div>
-                
-                <div style="margin-top: 30px;">
-                    <a href="ocr_receipt_scanner.html" class="btn btn-primary" style="padding: 18px 40px; font-size: 18px;">
-                        🚀 Launch Interactive Demo
-                    </a>
-                </div>
-            </div>
-            
-            <div class="footer">
-                <p>
-                    <strong>Project Repository:</strong> 
-                    <a href="https://github.com/malagasr/ocr-receipt-scanner" class="github-link" target="_blank">
-                        github.com/malagasr/ocr-receipt-scanner
-                    </a>
-                </p>
-                <p style="margin-top: 10px;">
-                    Built with Python, Streamlit, Tesseract OCR, EasyOCR, Ollama LLM, and SQLite
-                </p>
-            </div>
-        </div>
-    </div>
 
-    <script>
-        // Add some interactive elements
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                if (this.href && !this.href.includes('#')) {
-                    this.innerHTML = '⏳ Loading...';
-                    this.style.opacity = '0.8';
-                }
-            });
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">
+    <div class="nav-brand-icon">🧾</div>
+    OCR Receipt Scanner
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#stack">Tech stack</a></li>
+    <li><a href="https://github.com/malagasr/ocr-receipt-scanner" target="_blank">GitHub</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="https://github.com/malagasr/ocr-receipt-scanner" class="btn btn-ghost" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      Star repo
+    </a>
+    <a href="ocr_receipt_scanner.html" class="btn btn-primary">Live Demo →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-badge fade-up">
+    <span class="badge-dot"></span>
+    Open source · MIT License
+  </div>
+
+  <h1 class="fade-up">
+    Scan receipts.<br>
+    <span class="gradient-text">Know your spending.</span>
+  </h1>
+
+  <p class="hero-sub fade-up">
+    Upload any receipt image or PDF. AI extracts every line item, categorizes spending, and builds beautiful analytics — automatically.
+  </p>
+
+  <div class="hero-actions fade-up">
+    <a href="ocr_receipt_scanner.html" class="btn btn-primary btn-lg">
+      🚀 Open Live Demo
+    </a>
+    <a href="https://github.com/malagasr/ocr-receipt-scanner" class="btn btn-ghost btn-lg" target="_blank">
+      View Source
+    </a>
+  </div>
+
+  <div class="hero-stats fade-up">
+    <div class="stat-item">
+      <div class="stat-number">3</div>
+      <div class="stat-label">OCR engines</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">AI</div>
+      <div class="stat-label">Parsing & categorization</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">∞</div>
+      <div class="stat-label">Receipt history</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">0</div>
+      <div class="stat-label">Cloud required</div>
+    </div>
+  </div>
+</section>
+
+<!-- PREVIEW WINDOW -->
+<div class="preview-section">
+  <div class="preview-window fade-up">
+    <div class="window-bar">
+      <div class="window-dots">
+        <div class="dot dot-red"></div>
+        <div class="dot dot-yellow"></div>
+        <div class="dot dot-green"></div>
+      </div>
+      <div class="window-url">localhost:8501 — OCR Receipt Scanner</div>
+    </div>
+    <div class="window-content">
+      <!-- Total spend card -->
+      <div class="mock-card">
+        <div class="mock-card-header">
+          <div class="mock-icon mock-icon-blue">💰</div>
+          <div>
+            <div class="mock-label">Total Spend</div>
+            <div class="mock-value">$1,247.83</div>
+          </div>
+        </div>
+        <div class="mock-bar-row">
+          <span class="mock-bar-label">Groceries</span>
+          <div class="mock-bar-track"><div class="mock-bar-fill" style="width:68%"></div></div>
+          <span class="mock-bar-pct">68%</span>
+        </div>
+        <div class="mock-bar-row">
+          <span class="mock-bar-label">Household</span>
+          <div class="mock-bar-track"><div class="mock-bar-fill" style="width:45%;background:linear-gradient(90deg,#7c3aed,#a78bfa)"></div></div>
+          <span class="mock-bar-pct">45%</span>
+        </div>
+        <div class="mock-bar-row">
+          <span class="mock-bar-label">Dining</span>
+          <div class="mock-bar-track"><div class="mock-bar-fill" style="width:27%;background:linear-gradient(90deg,#059669,#10b981)"></div></div>
+          <span class="mock-bar-pct">27%</span>
+        </div>
+        <div class="mock-bar-row">
+          <span class="mock-bar-label">Other</span>
+          <div class="mock-bar-track"><div class="mock-bar-fill" style="width:18%;background:linear-gradient(90deg,#d97706,#f59e0b)"></div></div>
+          <span class="mock-bar-pct">18%</span>
+        </div>
+      </div>
+
+      <!-- Recent receipts -->
+      <div class="mock-card">
+        <div class="mock-card-header">
+          <div class="mock-icon mock-icon-green">🧾</div>
+          <div>
+            <div class="mock-label">Recent Receipts</div>
+            <div class="mock-value">24 scanned</div>
+          </div>
+        </div>
+        <div class="mock-list-item">
+          <span class="mock-store">Whole Foods Market</span>
+          <span class="mock-amount">$168.52</span>
+        </div>
+        <div class="mock-list-item">
+          <span class="mock-store">Target</span>
+          <span class="mock-amount">$89.75</span>
+        </div>
+        <div class="mock-list-item">
+          <span class="mock-store">Costco</span>
+          <span class="mock-amount">$245.30</span>
+        </div>
+        <div class="mock-list-item">
+          <span class="mock-store">Trader Joe's</span>
+          <span class="mock-amount">$54.18</span>
+        </div>
+        <div class="mock-list-item">
+          <span class="mock-store">Starbucks</span>
+          <span class="mock-amount">$12.45</span>
+        </div>
+      </div>
+
+      <!-- AI Status -->
+      <div class="mock-card" style="grid-column: 1 / -1;">
+        <div style="display:flex; gap:20px; align-items:center; flex-wrap:wrap;">
+          <div class="mock-icon mock-icon-purple" style="flex-shrink:0">🤖</div>
+          <div style="flex:1; min-width:200px;">
+            <div class="mock-label">AI Processing Status</div>
+            <div style="font-size:15px; font-weight:600; margin-top:2px;">Receipt parsed · 12 line items extracted</div>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <span style="background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600;">✓ OCR Complete</span>
+            <span style="background:rgba(79,70,229,0.15);border:1px solid rgba(79,70,229,0.3);color:#a5b4fc;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600;">✓ AI Categorized</span>
+            <span style="background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600;">✓ Saved to DB</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <p class="section-label fade-up">Features</p>
+  <h2 class="section-title fade-up">Everything you need to<br>track spending effortlessly</h2>
+  <p class="section-sub fade-up">From raw receipt image to structured spending data in seconds. No manual entry required.</p>
+
+  <div class="features-grid stagger">
+    <div class="feature-card fade-up">
+      <div class="feature-icon fi-blue">📸</div>
+      <h3 class="feature-title">Multi-format upload</h3>
+      <p class="feature-desc">Drag & drop JPG, PNG, or PDF receipts. Batch process multiple files at once with real-time progress tracking.</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="feature-icon fi-violet">🔍</div>
+      <h3 class="feature-title">Triple OCR engines</h3>
+      <p class="feature-desc">Tesseract, EasyOCR, and Vision API work together. Automatically picks best result for maximum accuracy.</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="feature-icon fi-emerald">🤖</div>
+      <h3 class="feature-title">AI parsing & categorization</h3>
+      <p class="feature-desc">Ollama LLM extracts store name, date, total, and every line item. Automatically categorizes by spend type.</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="feature-icon fi-amber">📊</div>
+      <h3 class="feature-title">Interactive analytics</h3>
+      <p class="feature-desc">Plotly charts show spending trends over time, category breakdowns, and merchant frequency maps.</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="feature-icon fi-rose">🗄️</div>
+      <h3 class="feature-title">Local SQLite database</h3>
+      <p class="feature-desc">All data stays on your machine. No cloud, no subscriptions, no privacy concerns. Export to CSV or JSON anytime.</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="feature-icon fi-sky">⚡</div>
+      <h3 class="feature-title">Real-time status</h3>
+      <p class="feature-desc">Live system health panel shows OCR engine status, database connections, and processing queues at a glance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<div class="how-section" id="how">
+  <div class="how-inner">
+    <p class="section-label fade-up">How it works</p>
+    <h2 class="section-title fade-up">From photo to insight<br>in four steps</h2>
+    <p class="section-sub fade-up" style="margin-bottom:48px;">The pipeline is fully automated. You upload — the app handles the rest.</p>
+
+    <div class="steps-grid stagger">
+      <div class="step-card fade-up">
+        <div class="step-num">01</div>
+        <h3 class="step-title">Upload receipt</h3>
+        <p class="step-desc">Drop an image or PDF. Any angle, any lighting. The preprocessor normalizes it before OCR.</p>
+      </div>
+      <div class="step-card fade-up">
+        <div class="step-num">02</div>
+        <h3 class="step-title">OCR extraction</h3>
+        <p class="step-desc">Three engines run in parallel. The highest-confidence result moves forward to the AI parser.</p>
+      </div>
+      <div class="step-card fade-up">
+        <div class="step-num">03</div>
+        <h3 class="step-title">AI parsing</h3>
+        <p class="step-desc">LLM structures raw text into merchant, date, total, line items, and spending category.</p>
+      </div>
+      <div class="step-card fade-up">
+        <div class="step-num">04</div>
+        <h3 class="step-title">Dashboard & export</h3>
+        <p class="step-desc">Data lands in SQLite instantly. Charts update live. Export whenever you want.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TECH STACK -->
+<div class="stack-section" id="stack">
+  <div class="stack-inner">
+    <p class="section-label fade-up">Tech stack</p>
+    <h2 class="section-title fade-up" style="margin-bottom:16px;">Built on solid foundations</h2>
+    <p class="section-sub fade-up" style="margin-bottom:40px;">Entirely open source. Runs locally. No API keys needed for core functionality.</p>
+
+    <div class="stack-grid fade-up">
+      <span class="stack-badge"><span class="stack-badge-dot" style="background:#3776ab"></span> Python 3.10+</span>
+      <span class="stack-badge"><span class="stack-badge-dot" style="background:#ff4b4b"></span> Streamlit</span>
+      <span class="stack-badge"><span class="stack-badge-dot" style="background:#5b8db8"></span> Tesseract OCR</span>
+      <span class="stack-badge"><span class="stack-badge-dot" style="background:#ff6b35"></span> EasyOCR</span>
+      <span class="stack-badge"><span class="stack-badge-dot" style="background:#7c3aed"></span> Ollama LLM</span>
+      <span class="stack-badge"><span class="stack-badge-dot" style="background:#0f80c1"></span> SQLite</span>
+      <span class="stack-badge"><span class="stack-badge-dot" style="background:#3e77b3"></span> Plotly</span>
+      <span class="stack-badge"><span class="stack-badge-dot" style="background:#f0a500"></span> Pillow</span>
+      <span class="stack-badge"><span class="stack-badge-dot" style="background:#ee4c2c"></span> PyTorch</span>
+      <span class="stack-badge"><span class="stack-badge-dot" style="background:#150458"></span> Pandas</span>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-inner fade-up">
+    <h2 class="cta-title">Ready to try it?</h2>
+    <p class="cta-sub">Open the live demo in your browser — no install, no account, no catch.</p>
+    <div class="cta-actions">
+      <a href="ocr_receipt_scanner.html" class="btn btn-primary btn-lg">🚀 Launch Demo</a>
+      <a href="https://github.com/malagasr/ocr-receipt-scanner" class="btn btn-ghost btn-lg" target="_blank">View on GitHub</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <div class="footer-brand-icon">🧾</div>
+    OCR Receipt Scanner
+  </div>
+  <div class="footer-links">
+    <a href="https://github.com/malagasr/ocr-receipt-scanner" target="_blank">GitHub</a>
+    <a href="ocr_receipt_scanner.html">Demo</a>
+    <a href="https://github.com/malagasr/ocr-receipt-scanner/blob/main/requirements.txt" target="_blank">Requirements</a>
+  </div>
+  <div class="footer-copy">MIT License · Built with Python & Streamlit</div>
+</footer>
+
+<script>
+  // Scroll-based fade-up animations
+  const observer = new IntersectionObserver(
+    (entries) => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    }),
+    { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+  );
+
+  document.querySelectorAll('.fade-up').forEach((el, i) => {
+    // Stagger siblings
+    const parent = el.parentElement;
+    if (parent && parent.classList.contains('stagger')) {
+      const siblings = [...parent.querySelectorAll('.fade-up')];
+      el.style.transitionDelay = (siblings.indexOf(el) * 80) + 'ms';
+    }
+    observer.observe(el);
+  });
+
+  // Trigger hero elements (already in view)
+  setTimeout(() => {
+    document.querySelectorAll('.hero .fade-up, .preview-section .fade-up').forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), i * 120);
+    });
+  }, 100);
+
+  // Animate mock bars on scroll into view
+  const barObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.mock-bar-fill').forEach(bar => {
+          const target = bar.style.width;
+          bar.style.width = '0%';
+          bar.style.transition = 'width 1s cubic-bezier(0.4,0,0.2,1)';
+          setTimeout(() => { bar.style.width = target; }, 100);
         });
-        
-        // Add a simple animation to the logo
-        const logoIcon = document.querySelector('.logo-icon');
-        setInterval(() => {
-            logoIcon.style.transform = 'rotate(5deg)';
-            setTimeout(() => {
-                logoIcon.style.transform = 'rotate(-5deg)';
-            }, 500);
-            setTimeout(() => {
-                logoIcon.style.transform = 'rotate(0deg)';
-            }, 1000);
-        }, 3000);
-    </script>
+        barObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.preview-window').forEach(w => barObserver.observe(w));
+</script>
 </body>
 </html>
