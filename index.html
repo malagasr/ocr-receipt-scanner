@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCR Receipt Scanner - GitHub Pages</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .logo-icon {
+            font-size: 40px;
+            background: white;
+            color: #4f46e5;
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-text h1 {
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .logo-text p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .status-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        
+        .content {
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 30px;
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .option-card {
+            background: #f8fafc;
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+        
+        .option-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-color: #4f46e5;
+        }
+        
+        .option-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .option-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+        
+        .option-desc {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .btn-primary {
+            background: #4f46e5;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #4338ca;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #10b981;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #0da271;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+        }
+        
+        .btn-outline:hover {
+            background: #4f46e5;
+            color: white;
+        }
+        
+        .demo-section {
+            background: #f1f5f9;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+        
+        .demo-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 20px;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .demo-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .demo-item-title {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+        
+        .demo-item-desc {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .github-link {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .github-link:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">🧾</div>
+                <div class="logo-text">
+                    <h1>OCR Receipt Scanner</h1>
+                    <p>AI-powered receipt processing & analytics</p>
+                </div>
+            </div>
+            <div class="status-badge">🚀 Hosted on GitHub Pages</div>
+        </div>
+        
+        <div class="content">
+            <div class="section-title">Choose Your Version</div>
+            
+            <div class="options-grid">
+                <div class="option-card">
+                    <div class="option-icon">🌐</div>
+                    <div class="option-title">HTML Demo Version</div>
+                    <div class="option-desc">
+                        Interactive HTML demo with full UI. No backend required - works directly in your browser.
+                    </div>
+                    <a href="ocr_receipt_scanner.html" class="btn btn-primary">Open HTML Demo</a>
+                </div>
+                
+                <div class="option-card">
+                    <div class="option-icon">🐍</div>
+                    <div class="option-title">Full Streamlit App</div>
+                    <div class="option-desc">
+                        Complete Python application with OCR, AI parsing, database, and analytics. Requires local setup.
+                    </div>
+                    <a href="https://github.com/malagasr/ocr-receipt-scanner" class="btn btn-outline">View on GitHub</a>
+                </div>
+                
+                <div class="option-card">
+                    <div class="option-icon">🚀</div>
+                    <div class="option-title">Deploy to Streamlit Cloud</div>
+                    <div class="option-desc">
+                        One-click deployment to Streamlit Cloud for a live, hosted version with full functionality.
+                    </div>
+                    <a href="https://streamlit.io/cloud" class="btn btn-secondary">Deploy Now</a>
+                </div>
+            </div>
+            
+            <div class="demo-section">
+                <div class="demo-title">🎯 Live Demo Features</div>
+                <p style="color: #64748b; margin-bottom: 20px;">The HTML demo includes interactive UI elements that showcase the app's functionality:</p>
+                
+                <div class="demo-grid">
+                    <div class="demo-item">
+                        <div class="demo-item-title">📤 File Upload</div>
+                        <div class="demo-item-desc">Drag & drop interface with file browser</div>
+                    </div>
+                    
+                    <div class="demo-item">
+                        <div class="demo-item-title">🤖 AI Processing</div>
+                        <div class="demo-item-desc">Simulated OCR + AI parsing workflow</div>
+                    </div>
+                    
+                    <div class="demo-item">
+                        <div class="demo-item-title">📊 Dashboard</div>
+                        <div class="demo-item-desc">Interactive data visualization</div>
+                    </div>
+                    
+                    <div class="demo-item">
+                        <div class="demo-item-title">⚡ Real-time Status</div>
+                        <div class="demo-item-desc">System health and processing status</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <a href="ocr_receipt_scanner.html" class="btn btn-primary" style="padding: 18px 40px; font-size: 18px;">
+                        🚀 Launch Interactive Demo
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <p>
+                    <strong>Project Repository:</strong> 
+                    <a href="https://github.com/malagasr/ocr-receipt-scanner" class="github-link" target="_blank">
+                        github.com/malagasr/ocr-receipt-scanner
+                    </a>
+                </p>
+                <p style="margin-top: 10px;">
+                    Built with Python, Streamlit, Tesseract OCR, EasyOCR, Ollama LLM, and SQLite
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive elements
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (this.href && !this.href.includes('#')) {
+                    this.innerHTML = '⏳ Loading...';
+                    this.style.opacity = '0.8';
+                }
+            });
+        });
+        
+        // Add a simple animation to the logo
+        const logoIcon = document.querySelector('.logo-icon');
+        setInterval(() => {
+            logoIcon.style.transform = 'rotate(5deg)';
+            setTimeout(() => {
+                logoIcon.style.transform = 'rotate(-5deg)';
+            }, 500);
+            setTimeout(() => {
+                logoIcon.style.transform = 'rotate(0deg)';
+            }, 1000);
+        }, 3000);
+    </script>
+</body>
+</html>
